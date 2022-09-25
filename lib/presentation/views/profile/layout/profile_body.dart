@@ -38,11 +38,6 @@ class ProfileBody extends StatelessWidget {
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                     ),
-                    CustomText(
-                      text: 'Edit Profile',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 11,
-                    ),
                   ],
                 ),
               ),
@@ -52,18 +47,7 @@ class ProfileBody extends StatelessWidget {
           const SizedBox(
             height: 30,
           ),
-          GestureDetector(
-              onTap: (){
-                // NavigationHelper.pushRoute(context, UpdateProfile());
-              },
-              child: CustomText(text: 'Profile')),
-          const SizedBox(
-            height: 10,
-          ),
-          const Divider(),
-          const SizedBox(
-            height: 10,
-          ),
+
           GestureDetector(
               onTap: (){
                 NavigationHelper.pushRoute(context, OrderHistoryView());

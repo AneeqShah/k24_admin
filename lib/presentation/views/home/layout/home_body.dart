@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:k24_admin/config/front_end_config.dart';
 import 'package:k24_admin/presentation/elements/custom_text.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+// import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomeBody extends StatefulWidget {
   const HomeBody({Key? key}) : super(key: key);
@@ -123,21 +123,21 @@ class _HomeBodyState extends State<HomeBody> {
             ),
           ),
           SizedBox(height: 30,),
-          Container(
-              child: SfCartesianChart(
-                primaryYAxis: NumericAxis(
-                    minimum: 10,
-                    maximum: 50
-                ),
-                series: <ChartSeries<ChartData, int>>[
-                  ColumnSeries<ChartData, int>(
-                    color: FrontEndConfigs.kPrimaryColor,
-                      dataSource: chartData,
-                      xValueMapper: (ChartData data, _) => data.x,
-                      yValueMapper: (ChartData data, _) => data.y),
-                ],
-              )
-          )
+          // Container(
+          //     child: SfCartesianChart(
+          //       primaryYAxis: NumericAxis(
+          //           minimum: 10,
+          //           maximum: 50
+          //       ),
+          //       series: <ChartSeries<ChartData, int>>[
+          //         ColumnSeries<ChartData, int>(
+          //           color: FrontEndConfigs.kPrimaryColor,
+          //             dataSource: chartData,
+          //             xValueMapper: (ChartData data, _) => data.x,
+          //             yValueMapper: (ChartData data, _) => data.y),
+          //       ],
+          //     )
+          // )
         ],
       ),
     );

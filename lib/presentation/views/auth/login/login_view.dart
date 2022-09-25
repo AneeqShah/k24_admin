@@ -10,22 +10,8 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return  const Scaffold(
       backgroundColor: Colors.white,
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 18.0),
-        child: GestureDetector(
-          onTap: (){
-            NavigationHelper.pushRoute(context, const RegisterView());
-          },
-          child: Row(mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CustomText(text: 'I don\'t have an account.'),
-              CustomText(text: 'Sign Up',color: FrontEndConfigs.kPrimaryColor,),
-            ],
-          ),
-        ),
-      ),
       body: LoginBody(),
     );
   }
