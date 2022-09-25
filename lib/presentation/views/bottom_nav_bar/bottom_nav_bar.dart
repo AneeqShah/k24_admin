@@ -52,13 +52,8 @@ class _BottomNavBodyState extends State<BottomNavBody> {
                     : Colors.grey,
               ),
               label: 'Home'),
-          BottomNavigationBarItem(
-              icon: ImageIcon(
-                const AssetImage('assets/images/fav.png'),
-                color: _currentIndex == 1
-                    ? FrontEndConfigs.kPrimaryColor
-                    : Colors.grey,
-              ),
+          const BottomNavigationBarItem(
+              icon: Icon(Icons.chat),
               label: 'Message'),
           BottomNavigationBarItem(
               icon: ImageIcon(

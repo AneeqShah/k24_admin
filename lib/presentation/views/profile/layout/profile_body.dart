@@ -1,55 +1,59 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:k24_admin/navigation_helper/navigation_helper.dart';
 import 'package:k24_admin/presentation/views/add_product/add_product.dart';
 import 'package:k24_admin/presentation/views/answered_question/answered_question.dart';
 import 'package:k24_admin/presentation/views/auth/change_password/change_password.dart';
 import 'package:k24_admin/presentation/views/order_history/order_history.dart';
 import '../../../elements/custom_text.dart';
+import '../../auth/login/login_view.dart';
 
-class ProfileBody extends StatelessWidget {
+class ProfileBody extends StatefulWidget {
   const ProfileBody({Key? key}) : super(key: key);
 
+  @override
+  State<ProfileBody> createState() => _ProfileBodyState();
+}
+
+class _ProfileBodyState extends State<ProfileBody> {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(18.0),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-               const CircleAvatar(
+              const CircleAvatar(
                 radius: 35,
-                backgroundImage: AssetImage('assets/images/dp.png'),
+                backgroundImage: AssetImage('assets/images/logo.png'),
                 child: Align(
                   alignment: Alignment.bottomRight,
-                  child: CircleAvatar(
-                    radius: 12,
-                    backgroundColor: Colors.amber,
-                    child: Icon(Icons.camera_alt,size: 11,color: Colors.white,),
-                  ),
+
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-                      text: 'Admin',
+                      text: 'Hello, Admin',
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                     ),
                   ],
                 ),
               ),
-
             ],
           ),
           const SizedBox(
             height: 30,
           ),
-
           GestureDetector(
-              onTap: (){
+              onTap: () {
                 NavigationHelper.pushRoute(context, OrderHistoryView());
               },
               child: CustomText(text: 'Order History')),
@@ -61,7 +65,7 @@ class ProfileBody extends StatelessWidget {
             height: 10,
           ),
           GestureDetector(
-              onTap: (){
+              onTap: () {
                 NavigationHelper.pushRoute(context, AnsweredQuestionView());
               },
               child: CustomText(text: 'Answered Question')),
@@ -81,7 +85,7 @@ class ProfileBody extends StatelessWidget {
             height: 10,
           ),
           GestureDetector(
-              onTap: (){
+              onTap: () {
                 NavigationHelper.pushRoute(context, AddProduct());
               },
               child: CustomText(text: 'Add Product')),
@@ -93,7 +97,7 @@ class ProfileBody extends StatelessWidget {
             height: 10,
           ),
           GestureDetector(
-              onTap: (){
+              onTap: () {
                 NavigationHelper.pushRoute(context, ChangePassword());
               },
               child: CustomText(text: 'Change Password')),
@@ -104,7 +108,14 @@ class ProfileBody extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          CustomText(text: 'Logout',color: Colors.red,),
+          InkWell(
+              onTap: () {
+                _logout();
+              },
+              child: CustomText(
+                text: 'Logout',
+                color: Colors.red,
+              )),
           const SizedBox(
             height: 10,
           ),
@@ -112,5 +123,15 @@ class ProfileBody extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _logout() async {
+    try {
+      await FirebaseAuth.instance.signOut().then((value) {
+        NavigationHelper.pushReplacement(context, LoginView());
+      });
+    } on FirebaseException catch (e) {
+      Fluttertoast.showToast(msg: e.message!);
+    }
   }
 }
