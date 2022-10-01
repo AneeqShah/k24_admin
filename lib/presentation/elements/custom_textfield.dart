@@ -8,8 +8,10 @@ class AuthTextField extends StatelessWidget {
   bool showDescription;
   bool isNumberField;
   bool isPasswordField;
+  bool isEnable;
 
   AuthTextField({
+    this.isEnable = true,
     required this.hint,
     required this.controller,
     this.showDescription = false,
@@ -25,12 +27,15 @@ class AuthTextField extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            color:  const Color(0xffF0F0F0)),
-
+            color: const Color(0xffF0F0F0)),
         child: TextFormField(
-          inputFormatters:
-          isNumberField ? [ FilteringTextInputFormatter.allow(RegExp(r"[0-9.]")),] : null,
+          inputFormatters: isNumberField
+              ? [
+                  FilteringTextInputFormatter.allow(RegExp(r"[0-9.]")),
+                ]
+              : null,
           controller: controller,
+          enabled: isEnable,
           obscureText: isPasswordField,
           keyboardType: keyBoardType,
           maxLines: showDescription ? 8 : 1,
@@ -40,7 +45,8 @@ class AuthTextField extends StatelessWidget {
               fontSize: 14,
               fontWeight: FontWeight.w400),
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 10,vertical: 3),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
             border: InputBorder.none,
             hintText: hint,
             hintStyle: const TextStyle(

@@ -1,7 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:k24_admin/config/front_end_config.dart';
+import 'package:k24_admin/navigation_helper/navigation_helper.dart';
+import 'package:k24_admin/presentation/elements/custom_text.dart';
+import 'package:k24_admin/presentation/views/update_profile/update_profile.dart';
 
 import '../../../../model/message.dart';
 import '../widgets/build_texfield.dart';
@@ -10,9 +15,13 @@ import '../widgets/chat_message.dart';
 class ChatViewBody extends StatefulWidget {
   final String CustomerID;
   final bool fromChat;
+  final String name;
 
   const ChatViewBody(
-      {super.key, required this.CustomerID, required this.fromChat});
+      {super.key,
+      required this.CustomerID,
+      required this.fromChat,
+      required this.name});
 
   @override
   State<ChatViewBody> createState() => _ChatViewBodyState();
@@ -37,8 +46,31 @@ class _ChatViewBodyState extends State<ChatViewBody> {
     });
     return Column(
       children: <Widget>[
-        const SizedBox(
-          height: 20,
+        Container(
+          height: 50,
+          width: MediaQuery.of(context).size.width,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomText(
+                  text: "View ${widget.name} profile",
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+                IconButton(
+                    onPressed: () {
+                      NavigationHelper.pushRoute(context,
+                          UpdateProfile(customerID: widget.CustomerID));
+                    },
+                    icon: Icon(
+                      Icons.arrow_forward_ios_outlined,
+                      color: FrontEndConfigs.kPrimaryColor,
+                    ))
+              ],
+            ),
+          ),
         ),
         Expanded(
           child: ListView.separated(
@@ -120,7 +152,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
         "chatID": chatID,
         "time": DateTime.now().millisecondsSinceEpoch,
       });
-    }).then((value){
+    }).then((value) {
       _message.clear();
     });
   }

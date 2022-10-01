@@ -3,6 +3,7 @@ import 'custom_text.dart';
 
 customAppBar(String text,{
   bool showIcon = false,
+
 }){
   return AppBar(
     title: CustomText(text: text,color: Colors.black,),

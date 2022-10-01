@@ -25,6 +25,7 @@ class BuildTextField extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: TextFormField(
+                    maxLines: 100,
                     controller: controller,
                     decoration: const InputDecoration(
                         border: InputBorder.none,

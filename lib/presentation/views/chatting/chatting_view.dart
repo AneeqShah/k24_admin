@@ -24,7 +24,7 @@ class _ChatViewState extends State<ChatView> {
       appBar: customAppBar(widget.name, showIcon: true),
       body: ChatViewBody(
         CustomerID: widget.customerID,
-        fromChat: widget.fromChat,
+        fromChat: widget.fromChat, name: widget.name,
       ),
     );
   }

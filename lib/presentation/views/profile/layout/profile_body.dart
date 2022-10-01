@@ -72,14 +72,7 @@ class _ProfileBodyState extends State<ProfileBody> {
           const SizedBox(
             height: 10,
           ),
-          const Divider(),
-          const SizedBox(
-            height: 10,
-          ),
-          CustomText(text: 'Monthly Statement'),
-          const SizedBox(
-            height: 10,
-          ),
+      
           const Divider(),
           const SizedBox(
             height: 10,
