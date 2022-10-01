@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../model/message.dart';
 
 class MessageRowWidget extends StatelessWidget {
-  final Message message;
+  final String message;
   final bool current;
 
   const MessageRowWidget(
@@ -66,7 +66,7 @@ class MessageRowWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 10),
                         child: Text(
-                          message.description,
+                          message,
                           style: const TextStyle(
                             color: Colors.black,
                           ),

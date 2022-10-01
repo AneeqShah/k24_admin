@@ -9,8 +9,9 @@ class ChatList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: customAppBar('Question to answer'),
-      body: ChatListBody(),
+      body: const ChatListBody(),
     );
   }
 }

@@ -20,8 +20,8 @@ class AddProductBody extends StatefulWidget {
 
 class _AddProductBodyState extends State<AddProductBody> {
   TextEditingController pController = TextEditingController();
-  TextEditingController fromController = TextEditingController();
-  TextEditingController toController = TextEditingController();
+  TextEditingController minController = TextEditingController();
+  TextEditingController maxController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController descController = TextEditingController();
   bool isLoading = false;
@@ -96,9 +96,9 @@ class _AddProductBodyState extends State<AddProductBody> {
                 children: [
                   Expanded(
                       child: AuthTextField(
-                    hint: 'From',
+                    hint: 'Minimum',
                     keyBoardType: TextInputType.number,
-                    controller: fromController,
+                    controller: minController,
                   )),
                   const SizedBox(
                     width: 10,
@@ -106,8 +106,8 @@ class _AddProductBodyState extends State<AddProductBody> {
                   Expanded(
                       child: AuthTextField(
                     keyBoardType: TextInputType.number,
-                    hint: 'To',
-                    controller: toController,
+                    hint: 'Maximum',
+                    controller: maxController,
                   )),
                 ],
               ),
@@ -146,9 +146,9 @@ class _AddProductBodyState extends State<AddProductBody> {
                       Fluttertoast.showToast(msg: "Title can't be empty");
                     } else if (priceController.text.trim().isEmpty) {
                       Fluttertoast.showToast(msg: "Price can't be empty");
-                    } else if (toController.text.isEmpty) {
+                    } else if (minController.text.isEmpty) {
                       Fluttertoast.showToast(msg: "Range can't be empty");
-                    } else if (fromController.text.isEmpty) {
+                    } else if (maxController.text.isEmpty) {
                       Fluttertoast.showToast(msg: "Range can't be empty");
                     } else if (descController.text.isEmpty) {
                       Fluttertoast.showToast(msg: "Description can't be empty");
@@ -222,8 +222,8 @@ class _AddProductBodyState extends State<AddProductBody> {
         "title": pController.text,
         "description": descController.text,
         "price": priceController.text,
-        "toRange": toController.text,
-        "fromRange": fromController.text,
+        "min": minController.text,
+        "max": maxController.text,
         "image": image,
         "productID": productID,
       }).then((value) {
@@ -231,8 +231,8 @@ class _AddProductBodyState extends State<AddProductBody> {
         pController.clear();
         descController.clear();
         priceController.clear();
-        toController.clear();
-        fromController.clear();
+        minController.clear();
+        maxController.clear();
         file = null;
         loadingFalse();
       });
