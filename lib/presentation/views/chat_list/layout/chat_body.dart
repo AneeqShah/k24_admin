@@ -44,6 +44,8 @@ class _ChatListBodyState extends State<ChatListBody> {
                           context,
                           ChatView(
                             customerID: allUser[i]["uid"],
+                            name: allUser[i]["name"],
+                            fromChat: true,
                           ));
                     },
                     child: ChatListTile(
@@ -66,6 +68,7 @@ class _ChatListBodyState extends State<ChatListBody> {
         .orderBy("time", descending: true)
         .snapshots()
         .listen((QuerySnapshot snapshot) {
+      allUser.clear();
       snapshot.docs.forEach((element) async {
         allTime.add(element["time"]);
         var a = await FirebaseFirestore.instance
@@ -73,8 +76,8 @@ class _ChatListBodyState extends State<ChatListBody> {
             .doc(element["customerID"])
             .get();
         allUser.add(a);
+        setState(() {});
       });
     });
-    setState(() {});
   }
 }
