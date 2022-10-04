@@ -1,14 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:k24_admin/presentation/elements/Custom_image_container.dart';
 
 import '../../../../model/message.dart';
 
 class MessageRowWidget extends StatelessWidget {
   final String message;
   final bool current;
+  final bool isImage;
 
   const MessageRowWidget(
-      {Key? key, required this.message, required this.current})
+      {Key? key,
+      required this.message,
+      required this.current,
+      required this.isImage})
       : super(key: key);
 
   @override
@@ -21,7 +26,6 @@ class MessageRowWidget extends StatelessWidget {
       children: <Widget>[
         SizedBox(width: current ? 30.0 : 20.0),
         Container(
-
           padding: const EdgeInsets.only(
             bottom: 5,
             right: 5,
@@ -65,12 +69,18 @@ class MessageRowWidget extends StatelessWidget {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.only(right: 10),
-                        child: Text(
-                          message,
-                          style: const TextStyle(
-                            color: Colors.black,
-                          ),
-                        ),
+                        child: isImage
+                            ? CustomImageContainer(
+                                height: 200,
+                                wight: 200,
+                                radius: 6,
+                                image: message)
+                            : Text(
+                                message,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                ),
+                              ),
                       ),
                     ],
                   ),
