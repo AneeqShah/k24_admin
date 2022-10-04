@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:k24_admin/config/front_end_config.dart';
 import 'package:k24_admin/navigation_helper/navigation_helper.dart';
 import 'package:k24_admin/presentation/elements/custom_text.dart';
@@ -99,8 +103,15 @@ class _ChatViewBodyState extends State<ChatViewBody> {
             ? BuildTextField(
                 controller: _message,
                 onSend: () {
-                  _sendChat();
-                },
+                  if(_message.text.trim() != ""){
+                    _sendChat();
+
+                  }else{
+                    Fluttertoast.showToast(msg: "Message can't be empty");
+                  }
+                }, onImage: (){
+                  getImage(ImageSource.gallery);
+        },
               )
             : Container()
       ],
@@ -155,5 +166,17 @@ class _ChatViewBodyState extends State<ChatViewBody> {
     }).then((value) {
       _message.clear();
     });
+  }
+  ImagePicker picker = ImagePicker();
+  File? file;
+  String imageUrl = "";
+  Future getImage(ImageSource source) async {
+    final pickedFile = await picker.getImage(source: source, imageQuality: 30);
+    if (pickedFile != null && pickedFile.path != null) {
+      file = File(pickedFile.path);
+      setState(() {
+        print(imageUrl);
+      });
+    }
   }
 }

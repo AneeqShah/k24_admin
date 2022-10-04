@@ -101,6 +101,15 @@ class _ProfileBodyState extends State<ProfileBody> {
           const SizedBox(
             height: 10,
           ),
+          GestureDetector(
+              onTap: () {
+                NavigationHelper.pushRoute(context, ChangePassword());
+              },
+              child: CustomText(text: 'Add Sub-admin')),
+          const SizedBox(
+            height: 10,
+          ),
+          const Divider(),
           InkWell(
               onTap: () {
                 _logout();

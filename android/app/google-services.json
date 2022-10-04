@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "336911521162",
+    "project_id": "kartenlegen24-2a340",
+    "storage_bucket": "kartenlegen24-2a340.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336911521162:android:5f23d0ad10158d2acde473",
+        "android_client_info": {
+          "package_name": "com.soloDev.k24adminandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "336911521162-1vb0aseuae3unlutprpmlntkl4gagncc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7yZRBPiBYbF7MY4aMYw7o2K1F0MZMKws"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "336911521162-1vb0aseuae3unlutprpmlntkl4gagncc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "336911521162-4smvcfnkopej9j3ans0uckkk6jv202pa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.soloDev.k24Admin"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336911521162:android:2450d22f0078a68ecde473",
+        "android_client_info": {
+          "package_name": "com.soloDev.karteblengenUser"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "336911521162-1vb0aseuae3unlutprpmlntkl4gagncc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7yZRBPiBYbF7MY4aMYw7o2K1F0MZMKws"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "336911521162-1vb0aseuae3unlutprpmlntkl4gagncc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "336911521162-4smvcfnkopej9j3ans0uckkk6jv202pa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.soloDev.k24Admin"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

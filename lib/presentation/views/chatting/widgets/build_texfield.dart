@@ -5,9 +5,10 @@ import 'package:k24_admin/presentation/elements/custom_text.dart';
 class BuildTextField extends StatelessWidget {
   final TextEditingController controller;
   final Function onSend;
+  final Function onImage;
 
   const BuildTextField(
-      {super.key, required this.controller, required this.onSend});
+      {super.key, required this.controller, required this.onSend, required this.onImage});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,18 @@ class BuildTextField extends StatelessWidget {
             ),
           ),
           Expanded(
-              flex: 1,
+              child: InkWell(
+                onTap: () => onImage(),
+                child: const CircleAvatar(
+                  radius: 25,
+                  backgroundColor: Color(0xffECBEEB),
+                  child: Icon(
+                    Icons.image,
+                    color: Colors.white,
+                  ),
+                ),
+              )),
+          Expanded(
               child: InkWell(
                 onTap: () => onSend(),
                 child: const CircleAvatar(

@@ -77,10 +77,10 @@ class _HomeBodyState extends State<HomeBody> {
                   Image.asset('assets/images/logo2.png'),
                 ],
               ),
-              const CircleAvatar(
-                radius: 30,
-                backgroundImage: AssetImage('assets/images/dp.png'),
-              ),
+              // const CircleAvatar(
+              //   radius: 30,
+              //   backgroundImage: AssetImage('assets/images/logo.png'),
+              // ),
             ],
           ),
           const SizedBox(
