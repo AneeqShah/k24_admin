@@ -3,7 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:k24_admin/navigation_helper/navigation_helper.dart';
 import 'package:k24_admin/presentation/elements/Custom_image_container.dart';
+import 'package:k24_admin/presentation/views/bottom_nav_bar/bottom_nav_bar.dart';
 import '../../../app/custom_loader.dart';
 import '../../../app/image_upload.dart';
 import '../../elements/app_button.dart';
@@ -54,7 +56,7 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar("Profile", showIcon: true),
+      appBar: customAppBar("Edit Product", showIcon: true),
       backgroundColor: Colors.white,
       body: _getUI(context),
     );
@@ -89,7 +91,7 @@ class _EditProfileState extends State<EditProfile> {
                           borderRadius: BorderRadius.circular(6),
                           child: Image.file(
                             file!,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.fill,
                           )),
                 ),
               ),
@@ -263,10 +265,10 @@ class _EditProfileState extends State<EditProfile> {
         "min": minController.text,
         "max": maxController.text,
         "image": image != "" ? image : widget.image,
-      }).then((value) {
-        Fluttertoast.showToast(msg: "Product Added");
+      }, SetOptions(merge: true)).then((value) {
+        Fluttertoast.showToast(msg: "Product Edit");
         file = null;
-        loadingFalse();
+        NavigationHelper.pushReplacement(context, const BottomNavBody());
       });
     } on FirebaseException catch (e) {
       Fluttertoast.showToast(msg: e.message!);

@@ -72,6 +72,7 @@ class _ProductManagementState extends State<ProductManagement> {
         .collection("products")
         .snapshots()
         .listen((QuerySnapshot snapshot) {
+          allProducts.clear();
       snapshot.docs.forEach((element) {
         allProducts.add(element);
       });

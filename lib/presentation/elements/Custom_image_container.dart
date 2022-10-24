@@ -29,7 +29,7 @@ class _CustomImageContainerState extends State<CustomImageContainer> {
             child: widget.image == ""
                 ? Icon(Icons.person_outline_rounded)
                 : CachedNetworkImage(
-                    fit: BoxFit.fill,
+                    fit: BoxFit.cover,
                     imageUrl: widget.image,
                     progressIndicatorBuilder:
                         (context, url, downloadProgress) => Container(

@@ -41,7 +41,7 @@ class _AddProductBodyState extends State<AddProductBody> {
                   _showPicker(context);
                 },
                 child: Container(
-                  height: 150,
+                  height: 200,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
