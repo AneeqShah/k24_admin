@@ -141,7 +141,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
   }
 
   _sendChat(bool isImage) async {
-    FirebaseFirestore.instance
+   await FirebaseFirestore.instance
         .collection("chatList")
         .doc(userID)
         .collection("users")

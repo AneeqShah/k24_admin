@@ -1,24 +1,40 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:k24_admin/app/custom_loader.dart';
-import 'package:k24_admin/presentation/elements/app_button.dart';
-import 'package:k24_admin/presentation/elements/custom_text.dart';
-import 'package:k24_admin/presentation/elements/custom_textfield.dart';
+import 'package:k24_admin/presentation/elements/Custom_image_container.dart';
+import '../../../app/custom_loader.dart';
+import '../../../app/image_upload.dart';
+import '../../elements/app_button.dart';
+import '../../elements/custom_app_bar.dart';
+import '../../elements/custom_text.dart';
+import '../../elements/custom_textfield.dart';
 
-import '../../../../app/image_upload.dart';
+class EditProfile extends StatefulWidget {
+  final String image;
+  final String productTitle;
+  final String maxRange;
+  final String minRange;
+  final String price;
+  final String description;
+  final String productID;
 
-class AddProductBody extends StatefulWidget {
-  const AddProductBody({Key? key}) : super(key: key);
+  const EditProfile(
+      {super.key,
+      required this.image,
+      required this.productTitle,
+      required this.maxRange,
+      required this.minRange,
+      required this.price,
+      required this.description,
+      required this.productID});
 
   @override
-  State<AddProductBody> createState() => _AddProductBodyState();
+  State<EditProfile> createState() => _EditProfileState();
 }
 
-class _AddProductBodyState extends State<AddProductBody> {
+class _EditProfileState extends State<EditProfile> {
   TextEditingController pController = TextEditingController();
   TextEditingController minController = TextEditingController();
   TextEditingController maxController = TextEditingController();
@@ -27,7 +43,24 @@ class _AddProductBodyState extends State<AddProductBody> {
   bool isLoading = false;
 
   @override
+  void initState() {
+    pController.text = widget.productTitle;
+    minController.text = widget.minRange;
+    maxController.text = widget.maxRange;
+    priceController.text = widget.price;
+    descController.text = widget.description;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: customAppBar("Profile", showIcon: true),
+      backgroundColor: Colors.white,
+      body: _getUI(context),
+    );
+  }
+
+  Widget _getUI(BuildContext context) {
     return CustomLoader(
       isLoading: isLoading,
       child: SingleChildScrollView(
@@ -47,25 +80,11 @@ class _AddProductBodyState extends State<AddProductBody> {
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.grey.shade200),
                   child: file == null
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.camera_alt_outlined,
-                              color: Colors.grey,
-                              size: 31,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            CustomText(
-                              text: "Choose Image",
-                              color: Colors.grey.shade600,
-                              fontSize: 14,
-                            )
-                          ],
-                        )
+                      ? CustomImageContainer(
+                          height: 200,
+                          wight: 200,
+                          radius: 8,
+                          image: widget.image)
                       : ClipRRect(
                           borderRadius: BorderRadius.circular(6),
                           child: Image.file(
@@ -140,9 +159,7 @@ class _AddProductBodyState extends State<AddProductBody> {
               ),
               AppButton(
                   onPressed: () {
-                    if (file == null) {
-                      Fluttertoast.showToast(msg: "Choose Image");
-                    } else if (pController.text.isEmpty) {
+                    if (pController.text.isEmpty) {
                       Fluttertoast.showToast(msg: "Title can't be empty");
                     } else if (priceController.text.trim().isEmpty) {
                       Fluttertoast.showToast(msg: "Price can't be empty");
@@ -156,17 +173,23 @@ class _AddProductBodyState extends State<AddProductBody> {
                       _uploadProduct();
                     }
                   },
-                  text: 'Add Product'),
+                  text: 'Edit Product'),
+              SizedBox(
+                height: 10,
+              ),
+              AppButton(
+                onPressed: () async {
+                  await _deleteProduct();
+                },
+                text: "Delete Product",
+                color: Colors.red,
+              )
             ],
           ),
         ),
       ),
     );
   }
-
-  ImagePicker picker = ImagePicker();
-  File? file;
-  String imageUrl = "";
 
   @override
   void _showPicker(context) {
@@ -199,40 +222,49 @@ class _AddProductBodyState extends State<AddProductBody> {
         });
   }
 
+  ImagePicker picker = ImagePicker();
+  File? file;
+
   Future getImage(ImageSource source) async {
     final pickedFile = await picker.getImage(source: source, imageQuality: 30);
     if (pickedFile != null && pickedFile.path != null) {
       file = File(pickedFile.path);
-      setState(() {
-        print(imageUrl);
-      });
+      setState(() {});
     }
+  }
+
+  _deleteProduct() async {
+    loadingTrue();
+    await FirebaseFirestore.instance
+        .collection("products")
+        .doc(widget.productID)
+        .delete()
+        .then((value) {
+      loadingFalse();
+      Navigator.pop(context);
+    });
+    loadingFalse();
   }
 
   _uploadProduct() async {
     try {
       loadingTrue();
-      String productID =
-          FirebaseFirestore.instance.collection("products").doc().id;
-      String image = await UploadFileServices().getUrl(context, file: file!);
+      String image = "";
+      if (file != null) {
+        image = await UploadFileServices().getUrl(context, file: file!);
+      }
       await FirebaseFirestore.instance
           .collection("products")
-          .doc(productID)
+          .doc(widget.productID)
           .set({
         "title": pController.text,
         "description": descController.text,
         "price": priceController.text,
         "min": minController.text,
         "max": maxController.text,
-        "image": image,
-        "productID": productID,
+        "image": image != "" ? image : widget.image,
       }).then((value) {
         Fluttertoast.showToast(msg: "Product Added");
-        pController.clear();
-        descController.clear();
-        priceController.clear();
-        minController.clear();
-        maxController.clear();
         file = null;
         loadingFalse();
       });

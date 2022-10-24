@@ -39,7 +39,7 @@ class _OrderHistoryBodyState extends State<OrderHistoryBody> {
                   image: allUser[i]["image"],
                   userName: allUser[i]["name"],
                   price: allHistory[i]["price"],
-                  message: allHistory[i]["askedQuestion"],
+                  message: "",
                   date: uploadTime);
             }),
       ),

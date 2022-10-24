@@ -6,6 +6,7 @@ import 'package:k24_admin/presentation/views/add_product/add_product.dart';
 import 'package:k24_admin/presentation/views/answered_question/answered_question.dart';
 import 'package:k24_admin/presentation/views/auth/change_password/change_password.dart';
 import 'package:k24_admin/presentation/views/order_history/order_history.dart';
+import 'package:k24_admin/presentation/views/product_management/Product_management.dart';
 import '../../../elements/custom_text.dart';
 import '../../auth/login/login_view.dart';
 
@@ -103,9 +104,9 @@ class _ProfileBodyState extends State<ProfileBody> {
           ),
           GestureDetector(
               onTap: () {
-                NavigationHelper.pushRoute(context, ChangePassword());
+                NavigationHelper.pushRoute(context, ProductManagement());
               },
-              child: CustomText(text: 'Add Sub-admin')),
+              child: CustomText(text: 'Product Management')),
           const SizedBox(
             height: 10,
           ),
