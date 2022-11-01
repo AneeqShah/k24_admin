@@ -37,7 +37,7 @@ class MessageRowWidget extends StatelessWidget {
               Container(
                 constraints: BoxConstraints(
                   minHeight: 40,
-                  maxHeight: 250,
+                  maxHeight: MediaQuery.of(context).size.height,
                   maxWidth: MediaQuery.of(context).size.width * 0.7,
                   minWidth: MediaQuery.of(context).size.width * 0.1,
                 ),
