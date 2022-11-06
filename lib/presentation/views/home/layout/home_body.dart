@@ -141,6 +141,7 @@ class _HomeBodyState extends State<HomeBody> {
                   Expanded(
                       child: GestureDetector(
                     onTap: () {
+                      print("Called");
                       _getYearData();
                       setState(() {
                         selectIndex = 3;
@@ -174,7 +175,7 @@ class _HomeBodyState extends State<HomeBody> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6),
                 color: Colors.white,
-                boxShadow:  [
+                boxShadow: [
                   BoxShadow(
                     color: Colors.grey.shade300,
                     spreadRadius: 3,
@@ -184,7 +185,8 @@ class _HomeBodyState extends State<HomeBody> {
                 ],
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
                 child: charts.BarChart(
                   series,
                   animate: true,
@@ -363,13 +365,14 @@ class _HomeBodyState extends State<HomeBody> {
       November = 0;
       December = 0;
       data.clear();
-
       setState(() {});
       for (var element in snapshot.docs) {
         int date = element["orderTime"];
         if (date >= previousTime && date <= currentTime) {
           var dt = DateTime.fromMillisecondsSinceEpoch(element['orderTime']);
           String formattedDate = Jiffy(dt).format("MMMM"); // Tuesday
+          print("Date is $formattedDate");
+
           if (formattedDate == "January") {
             int num = int.parse(element["price"]);
             January = January + num;
@@ -400,7 +403,12 @@ class _HomeBodyState extends State<HomeBody> {
           } else if (formattedDate == "November") {
             int num = int.parse(element["price"]);
             November = November + num;
-          } else if (formattedDate == "December") {
+
+          } else if (formattedDate == "October") {
+            int num = int.parse(element["price"]);
+            October = October + num;
+
+          }else if (formattedDate == "December") {
             int num = int.parse(element["price"]);
             December = December + num;
           }

@@ -23,6 +23,7 @@ class _AddProductBodyState extends State<AddProductBody> {
   TextEditingController minController = TextEditingController();
   TextEditingController maxController = TextEditingController();
   TextEditingController priceController = TextEditingController();
+  TextEditingController decimalController = TextEditingController();
   TextEditingController descController = TextEditingController();
   bool isLoading = false;
 
@@ -115,13 +116,30 @@ class _AddProductBodyState extends State<AddProductBody> {
                 height: 10,
               ),
               CustomText(text: 'Price'),
-              const SizedBox(
-                height: 5,
-              ),
-              AuthTextField(
-                keyBoardType: TextInputType.number,
-                hint: '€  10',
-                controller: priceController,
+              Row(
+                children: [
+                  Expanded(
+                    child: AuthTextField(
+                      keyBoardType: TextInputType.number,
+                      hint: '€  10',
+                      controller: priceController,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  CustomText(text: '.'),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Expanded(
+                    child: AuthTextField(
+                      keyBoardType: TextInputType.number,
+                      hint: '00',
+                      controller: decimalController,
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 10,
@@ -179,14 +197,14 @@ class _AddProductBodyState extends State<AddProductBody> {
                 children: <Widget>[
                   ListTile(
                       leading: const Icon(Icons.photo_library),
-                      title: Text('Gallery'),
+                      title: const Text('Gallery'),
                       onTap: () {
                         getImage(ImageSource.gallery);
                         Navigator.of(context).pop();
                       }),
                   ListTile(
                     leading: const Icon(Icons.photo_camera),
-                    title: Text('Camera'),
+                    title: const Text('Camera'),
                     onTap: () {
                       getImage(ImageSource.camera);
                       Navigator.of(context).pop();
@@ -221,7 +239,8 @@ class _AddProductBodyState extends State<AddProductBody> {
           .set({
         "title": pController.text,
         "description": descController.text,
-        "price": priceController.text,
+        "price":
+            "${priceController.text}.${decimalController.text == "" ? "00" : decimalController.text}",
         "min": minController.text,
         "max": maxController.text,
         "image": image,
