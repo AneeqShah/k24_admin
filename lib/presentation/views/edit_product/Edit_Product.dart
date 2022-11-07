@@ -2,12 +2,14 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:k24_admin/navigation_helper/navigation_helper.dart';
 import 'package:k24_admin/presentation/elements/Custom_image_container.dart';
 import 'package:k24_admin/presentation/views/bottom_nav_bar/bottom_nav_bar.dart';
 import '../../../app/custom_loader.dart';
 import '../../../app/image_upload.dart';
+import '../../../config/front_end_config.dart';
 import '../../elements/app_button.dart';
 import '../../elements/custom_app_bar.dart';
 import '../../elements/custom_text.dart';
@@ -230,9 +232,41 @@ class _EditProfileState extends State<EditProfile> {
   Future getImage(ImageSource source) async {
     final pickedFile = await picker.getImage(source: source, imageQuality: 30);
     if (pickedFile != null && pickedFile.path != null) {
-      file = File(pickedFile.path);
+      // file = File(pickedFile.path);
+      _cropImage(pickedFile.path);
+
       setState(() {});
     }
+  }
+  _cropImage(filePath) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: filePath,
+      // aspectRatio: const CropAspectRatio(ratioX: 2, ratioY: 2),
+      aspectRatioPresets: [
+        // CropAspectRatioPreset.square,
+        // CropAspectRatioPreset.ratio3x2,
+        // CropAspectRatioPreset.original,
+        // CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            hideBottomControls: true,
+            toolbarTitle: 'Crop your image',
+            toolbarColor: FrontEndConfigs.kPrimaryColor,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Crop your image',
+        ),
+        WebUiSettings(
+          context: context,
+        ),
+      ],
+    );
+    file = File(croppedFile!.path);
+    setState(() {});
   }
 
   _deleteProduct() async {

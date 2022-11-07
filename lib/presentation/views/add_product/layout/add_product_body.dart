@@ -1,14 +1,14 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:k24_admin/app/custom_loader.dart';
+import 'package:k24_admin/config/front_end_config.dart';
 import 'package:k24_admin/presentation/elements/app_button.dart';
 import 'package:k24_admin/presentation/elements/custom_text.dart';
 import 'package:k24_admin/presentation/elements/custom_textfield.dart';
-
 import '../../../../app/image_upload.dart';
 
 class AddProductBody extends StatefulWidget {
@@ -218,13 +218,46 @@ class _AddProductBodyState extends State<AddProductBody> {
   }
 
   Future getImage(ImageSource source) async {
-    final pickedFile = await picker.getImage(source: source, imageQuality: 30);
+    final pickedFile = await picker.getImage(
+        source: source, imageQuality: 30, maxHeight: 200, maxWidth: 200);
     if (pickedFile != null && pickedFile.path != null) {
-      file = File(pickedFile.path);
+      // file = File(pickedFile.path);
+      _cropImage(pickedFile.path);
       setState(() {
         print(imageUrl);
       });
     }
+  }
+
+  _cropImage(filePath) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: filePath,
+      // aspectRatio: const CropAspectRatio(ratioX: 2, ratioY: 2),
+      aspectRatioPresets: [
+        // CropAspectRatioPreset.square,
+        // CropAspectRatioPreset.ratio3x2,
+        // CropAspectRatioPreset.original,
+        // CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            hideBottomControls: true,
+            toolbarTitle: 'Crop your image',
+            toolbarColor: FrontEndConfigs.kPrimaryColor,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Crop your image',
+        ),
+        WebUiSettings(
+          context: context,
+        ),
+      ],
+    );
+    file = File(croppedFile!.path);
+    setState(() {});
   }
 
   _uploadProduct() async {
