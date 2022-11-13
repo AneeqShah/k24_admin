@@ -25,7 +25,7 @@ class _ProductManagementState extends State<ProductManagement> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar("Profile", showIcon: true),
+      appBar: customAppBar("Product Management", showIcon: true),
       backgroundColor: Colors.white,
       body: _getUI(context),
     );
