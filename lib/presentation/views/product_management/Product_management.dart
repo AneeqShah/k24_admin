@@ -69,7 +69,7 @@ class _ProductManagementState extends State<ProductManagement> {
 
   _getProducts() async {
     await FirebaseFirestore.instance
-        .collection("products")
+        .collection("products").orderBy("time",descending: false)
         .snapshots()
         .listen((QuerySnapshot snapshot) {
           allProducts.clear();

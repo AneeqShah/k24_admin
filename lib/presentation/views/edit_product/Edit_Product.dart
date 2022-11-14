@@ -233,41 +233,9 @@ class _EditProfileState extends State<EditProfile> {
     final pickedFile = await picker.getImage(source: source, imageQuality: 30);
     if (pickedFile != null && pickedFile.path != null) {
       file = File(pickedFile.path);
-      // _cropImage(pickedFile.path);
-
       setState(() {});
     }
   }
-  // _cropImage(filePath) async {
-  //   CroppedFile? croppedFile = await ImageCropper().cropImage(
-  //     sourcePath: filePath,
-  //     // aspectRatio: const CropAspectRatio(ratioX: 2, ratioY: 2),
-  //     aspectRatioPresets: [
-  //       // CropAspectRatioPreset.square,
-  //       // CropAspectRatioPreset.ratio3x2,
-  //       // CropAspectRatioPreset.original,
-  //       // CropAspectRatioPreset.ratio4x3,
-  //       CropAspectRatioPreset.ratio16x9
-  //     ],
-  //     uiSettings: [
-  //       AndroidUiSettings(
-  //           hideBottomControls: true,
-  //           toolbarTitle: 'Crop your image',
-  //           toolbarColor: FrontEndConfigs.kPrimaryColor,
-  //           toolbarWidgetColor: Colors.white,
-  //           initAspectRatio: CropAspectRatioPreset.original,
-  //           lockAspectRatio: false),
-  //       IOSUiSettings(
-  //         title: 'Crop your image',
-  //       ),
-  //       WebUiSettings(
-  //         context: context,
-  //       ),
-  //     ],
-  //   );
-  //   file = File(croppedFile!.path);
-  //   setState(() {});
-  // }
 
   _deleteProduct() async {
     loadingTrue();
