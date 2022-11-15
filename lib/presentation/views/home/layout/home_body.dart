@@ -17,27 +17,27 @@ int selectIndex = 1;
 class _HomeBodyState extends State<HomeBody> {
   List<DocumentSnapshot> allPickups = [];
   final List<DeveloperSeries> data = [];
-  int monday = 0;
-  int tuesday = 0;
-  int wednesday = 0;
-  int thursday = 0;
-  int friday = 0;
-  int saturday = 0;
-  int sunday = 0;
+  double monday = 0;
+  double tuesday = 0;
+  double wednesday = 0;
+  double thursday = 0;
+  double friday = 0;
+  double saturday = 0;
+  double sunday = 0;
 
   //Months
-  int January = 0;
-  int February = 0;
-  int March = 0;
-  int April = 0;
-  int May = 0;
-  int June = 0;
-  int July = 0;
-  int August = 0;
-  int September = 0;
-  int October = 0;
-  int November = 0;
-  int December = 0;
+  double January = 0;
+  double February = 0;
+  double March = 0;
+  double April = 0;
+  double May = 0;
+  double June = 0;
+  double July = 0;
+  double August = 0;
+  double September = 0;
+  double October = 0;
+  double November = 0;
+  double December = 0;
 
   @override
   void initState() {
@@ -240,25 +240,25 @@ class _HomeBodyState extends State<HomeBody> {
           var dt = DateTime.fromMillisecondsSinceEpoch(element['orderTime']);
           String formattedDate = Jiffy(dt).format("EEEE"); // Tuesday
           if (formattedDate == "Monday") {
-            int num = int.parse(element["price"]);
+            double num = double.parse(element["price"]);
             monday = monday + num;
           } else if (formattedDate == "Tuesday") {
-            int num = int.parse(element["price"]);
+            double num = double.parse(element["price"]);
             tuesday = tuesday + num;
           } else if (formattedDate == "Wednesday") {
-            int num = int.parse(element["price"]);
+            double num = double.parse(element["price"]);
             wednesday = wednesday + num;
           } else if (formattedDate == "Thursday") {
-            int num = int.parse(element["price"]);
+            double num = double.parse(element["price"]);
             thursday = thursday + num;
           } else if (formattedDate == "Friday") {
-            int num = int.parse(element["price"]);
+            double num = double.parse(element["price"]);
             friday = friday + num;
           } else if (formattedDate == "Saturday") {
-            int num = int.parse(element["price"]);
+            double num = double.parse(element["price"]);
             saturday = saturday + num;
           } else {
-            int num = int.parse(element["price"]);
+            double num = double.parse(element["price"]);
             sunday = sunday + num;
           }
           setState(() {});
@@ -334,7 +334,7 @@ class _HomeBodyState extends State<HomeBody> {
         String day = Jiffy(dt).format("MMM");
         data.add(DeveloperSeries(
             year: formattedDate.replaceAll(day, ""),
-            developers: int.parse(element['price']),
+            developers: double.parse(element['price']),
             barColor:
                 charts.ColorUtil.fromDartColor(FrontEndConfigs.kPrimaryColor)));
       });
@@ -374,42 +374,42 @@ class _HomeBodyState extends State<HomeBody> {
           print("Date is $formattedDate");
 
           if (formattedDate == "January") {
-            int num = int.parse(element["price"]);
+            double num = double.parse(element["price"]);
             January = January + num;
           } else if (formattedDate == "February") {
-            int num = int.parse(element["price"]);
+            double num = double.parse(element["price"]);
             February = February + num;
           } else if (formattedDate == "March") {
-            int num = int.parse(element["price"]);
+            double num = double.parse(element["price"]);
             March = March + num;
           } else if (formattedDate == "April") {
-            int num = int.parse(element["price"]);
+            double num = double.parse(element["price"]);
             April = April + num;
           } else if (formattedDate == "May") {
-            int num = int.parse(element["price"]);
+            double num = double.parse(element["price"]);
             May = May + num;
           } else if (formattedDate == "June") {
-            int num = int.parse(element["price"]);
+            double num = double.parse(element["price"]);
             June = June + num;
           } else if (formattedDate == "July") {
-            int num = int.parse(element["price"]);
+            double num = double.parse(element["price"]);
             July = July + num;
           } else if (formattedDate == "August") {
-            int num = int.parse(element["price"]);
+            double num = double.parse(element["price"]);
             August = August + num;
           } else if (formattedDate == "September") {
-            int num = int.parse(element["price"]);
+            double num = double.parse(element["price"]);
             September = September + num;
           } else if (formattedDate == "November") {
-            int num = int.parse(element["price"]);
+            double num = double.parse(element["price"]);
             November = November + num;
 
           } else if (formattedDate == "October") {
-            int num = int.parse(element["price"]);
+            double num = double.parse(element["price"]);
             October = October + num;
 
           }else if (formattedDate == "December") {
-            int num = int.parse(element["price"]);
+            double num = double.parse(element["price"]);
             December = December + num;
           }
           setState(() {});
@@ -483,7 +483,7 @@ class _HomeBodyState extends State<HomeBody> {
 
 class DeveloperSeries {
   final String year;
-  final int developers;
+  final double developers;
   final charts.Color barColor;
 
   DeveloperSeries(

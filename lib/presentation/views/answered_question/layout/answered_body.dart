@@ -18,6 +18,7 @@ class AnsweredBody extends StatefulWidget {
 class _AnsweredBodyState extends State<AnsweredBody> {
   List<DocumentSnapshot> allUser = [];
   List allTime = [];
+  List products = [];
 
   @override
   void initState() {
@@ -46,6 +47,7 @@ class _AnsweredBodyState extends State<AnsweredBody> {
                             customerID: allUser[i]["uid"],
                             name: allUser[i]["name"],
                             fromChat: false,
+                            productID: products[i],
                           ));
                     },
                     child: ChatListTile(
@@ -68,9 +70,10 @@ class _AnsweredBodyState extends State<AnsweredBody> {
         .orderBy("time", descending: true)
         .snapshots()
         .listen((QuerySnapshot snapshot) {
-          allUser.clear();
+      allUser.clear();
       snapshot.docs.forEach((element) async {
         allTime.add(element["time"]);
+        products.add(element["productID"]);
         var a = await FirebaseFirestore.instance
             .collection("Users")
             .doc(element["customerID"])

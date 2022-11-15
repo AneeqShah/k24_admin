@@ -14,7 +14,6 @@ import 'package:k24_admin/navigation_helper/navigation_helper.dart';
 import 'package:k24_admin/presentation/elements/custom_text.dart';
 import 'package:k24_admin/presentation/views/update_profile/update_profile.dart';
 
-import '../../../../model/message.dart';
 import '../widgets/build_texfield.dart';
 import '../widgets/chat_message.dart';
 
@@ -22,12 +21,14 @@ class ChatViewBody extends StatefulWidget {
   final String CustomerID;
   final bool fromChat;
   final String name;
+  final String productID;
 
   const ChatViewBody(
       {super.key,
       required this.CustomerID,
       required this.fromChat,
-      required this.name});
+      required this.name,
+      required this.productID});
 
   @override
   State<ChatViewBody> createState() => _ChatViewBodyState();
@@ -39,11 +40,14 @@ class _ChatViewBodyState extends State<ChatViewBody> {
   ScrollController _controller = ScrollController();
   TextEditingController _message = TextEditingController();
   bool isLoading = false;
+  String price = "";
+  String name = "";
 
   @override
   void initState() {
     // TODO: implement initState
     _getchat();
+    _getProductDetails();
   }
 
   @override
@@ -64,7 +68,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomText(
-                    text: "View ${widget.name} profile",
+                    text: "Aussicht ${widget.name} Profil",
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -73,10 +77,44 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                         NavigationHelper.pushRoute(context,
                             UpdateProfile(customerID: widget.CustomerID));
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.arrow_forward_ios_outlined,
                         color: FrontEndConfigs.kPrimaryColor,
                       ))
+                ],
+              ),
+            ),
+          ),
+          Container(
+            height: 80,
+            width: MediaQuery.of(context).size.width,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomText(
+                    text: "Produkt details",
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: FrontEndConfigs.kPrimaryColor,
+                  ),
+                  const SizedBox(
+                    height: 2,
+                  ),
+                  CustomText(
+                    text: name,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  const SizedBox(
+                    height: 2,
+                  ),
+                  CustomText(
+                    text: "€ ${price}",
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ],
               ),
             ),
@@ -94,12 +132,14 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                 if (chat[index]["userID"] == userID) {
                   return MessageRowWidget(
                     current: true,
-                    message: chat[index]["question"], isImage: chat[index]['isImage'],
+                    message: chat[index]["question"],
+                    isImage: chat[index]['isImage'],
                   );
                 }
                 return MessageRowWidget(
                   current: false,
-                  message: chat[index]["question"], isImage: chat[index]['isImage'],
+                  message: chat[index]["question"],
+                  isImage: chat[index]['isImage'],
                 );
               },
             ),
@@ -141,7 +181,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
   }
 
   _sendChat(bool isImage) async {
-   await FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection("chatList")
         .doc(userID)
         .collection("users")
@@ -192,6 +232,29 @@ class _ChatViewBodyState extends State<ChatViewBody> {
         loadingFalse();
         Fluttertoast.showToast(msg: e.message!);
       }
+    }
+  }
+
+  _getProductDetails() async {
+    var a = await FirebaseFirestore.instance
+        .collection("products")
+        .doc(widget.productID)
+        .get();
+    print(a.id);
+    if (a.exists) {
+      await FirebaseFirestore.instance
+          .collection("products")
+          .doc(widget.productID)
+          .snapshots()
+          .listen((DocumentSnapshot snapshot) {
+        price = snapshot.get("price");
+        name = snapshot.get("title");
+        setState(() {});
+      });
+    } else {
+      name = "Product not longer available";
+      price = "0.0";
+      setState(() {});
     }
   }
 

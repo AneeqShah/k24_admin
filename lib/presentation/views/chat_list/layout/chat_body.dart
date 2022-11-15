@@ -18,6 +18,7 @@ class ChatListBody extends StatefulWidget {
 class _ChatListBodyState extends State<ChatListBody> {
   List<DocumentSnapshot> allUser = [];
   List allTime = [];
+  List productID = [];
 
   @override
   void initState() {
@@ -46,6 +47,7 @@ class _ChatListBodyState extends State<ChatListBody> {
                             customerID: allUser[i]["uid"],
                             name: allUser[i]["name"],
                             fromChat: true,
+                            productID: productID[i],
                           ));
                     },
                     child: ChatListTile(
@@ -71,6 +73,7 @@ class _ChatListBodyState extends State<ChatListBody> {
       allUser.clear();
       snapshot.docs.forEach((element) async {
         allTime.add(element["time"]);
+        productID.add(element["productID"]);
         var a = await FirebaseFirestore.instance
             .collection("Users")
             .doc(element["customerID"])
