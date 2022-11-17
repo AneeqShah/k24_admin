@@ -71,6 +71,9 @@ class _ChatListBodyState extends State<ChatListBody> {
         .snapshots()
         .listen((QuerySnapshot snapshot) {
       allUser.clear();
+      allTime.clear();
+      productID.clear();
+      setState(() {});
       snapshot.docs.forEach((element) async {
         allTime.add(element["time"]);
         productID.add(element["productID"]);

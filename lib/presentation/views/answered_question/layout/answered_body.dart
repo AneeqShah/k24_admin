@@ -46,7 +46,7 @@ class _AnsweredBodyState extends State<AnsweredBody> {
                           ChatView(
                             customerID: allUser[i]["uid"],
                             name: allUser[i]["name"],
-                            fromChat: false,
+                            fromChat: true,
                             productID: products[i],
                           ));
                     },
