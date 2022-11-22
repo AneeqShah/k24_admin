@@ -21,14 +21,13 @@ class ChatViewBody extends StatefulWidget {
   final String CustomerID;
   final bool fromChat;
   final String name;
-  final String productID;
 
-  const ChatViewBody(
-      {super.key,
-      required this.CustomerID,
-      required this.fromChat,
-      required this.name,
-      required this.productID});
+  const ChatViewBody({
+    super.key,
+    required this.CustomerID,
+    required this.fromChat,
+    required this.name,
+  });
 
   @override
   State<ChatViewBody> createState() => _ChatViewBodyState();
@@ -47,7 +46,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
   void initState() {
     // TODO: implement initState
     _getchat();
-    _getProductDetails();
+    _getProduct();
   }
 
   @override
@@ -180,6 +179,18 @@ class _ChatViewBodyState extends State<ChatViewBody> {
     });
   }
 
+  _getProduct() {
+    FirebaseFirestore.instance
+        .collection("questions")
+        .doc(widget.CustomerID)
+        .snapshots()
+        .listen((DocumentSnapshot snapshot) {
+      price = snapshot.get("productPrice");
+      name = snapshot.get("productTitle");
+      setState(() {});
+    });
+  }
+
   _sendChat(bool isImage) async {
     await FirebaseFirestore.instance
         .collection("chatList")
@@ -232,29 +243,6 @@ class _ChatViewBodyState extends State<ChatViewBody> {
         loadingFalse();
         Fluttertoast.showToast(msg: e.message!);
       }
-    }
-  }
-
-  _getProductDetails() async {
-    var a = await FirebaseFirestore.instance
-        .collection("products")
-        .doc(widget.productID)
-        .get();
-    print(a.id);
-    if (a.exists) {
-      await FirebaseFirestore.instance
-          .collection("products")
-          .doc(widget.productID)
-          .snapshots()
-          .listen((DocumentSnapshot snapshot) {
-        price = snapshot.get("price");
-        name = snapshot.get("title");
-        setState(() {});
-      });
-    } else {
-      name = "Product not longer available";
-      price = "0.0";
-      setState(() {});
     }
   }
 

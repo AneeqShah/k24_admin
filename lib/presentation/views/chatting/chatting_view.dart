@@ -6,14 +6,12 @@ class ChatView extends StatefulWidget {
   final String customerID;
   final String name;
   final bool fromChat;
-  final String productID;
 
   const ChatView(
       {super.key,
       required this.customerID,
       required this.name,
-      required this.fromChat,
-      required this.productID});
+      required this.fromChat,});
 
   @override
   _ChatViewState createState() => _ChatViewState();
@@ -28,7 +26,6 @@ class _ChatViewState extends State<ChatView> {
         CustomerID: widget.customerID,
         fromChat: widget.fromChat,
         name: widget.name,
-        productID: widget.productID,
       ),
     );
   }

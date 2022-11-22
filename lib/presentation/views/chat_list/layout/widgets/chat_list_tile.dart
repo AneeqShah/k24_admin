@@ -4,12 +4,10 @@ import 'package:k24_admin/presentation/elements/custom_text.dart';
 
 class ChatListTile extends StatelessWidget {
   String title;
-  String date;
   String image;
 
   ChatListTile(
       {required this.title,
-      required this.date,
       required this.image});
 
   @override
@@ -25,11 +23,11 @@ class ChatListTile extends StatelessWidget {
           title: CustomText(
             text: title,
           ),
-          trailing: CustomText(
-            text: date,
-            fontWeight: FontWeight.w400,
-            fontSize: 12,
-          ),
+          // trailing: CustomText(
+          //   text: date,
+          //   fontWeight: FontWeight.w400,
+          //   fontSize: 12,
+          // ),
         ),
         Divider()
       ],

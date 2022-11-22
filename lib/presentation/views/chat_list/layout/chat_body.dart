@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:k24_admin/app/custom_loader.dart';
 import 'package:k24_admin/presentation/views/chat_list/layout/widgets/chat_list_tile.dart';
 import 'package:k24_admin/presentation/views/chatting/chatting_view.dart';
 
@@ -17,8 +18,7 @@ class ChatListBody extends StatefulWidget {
 
 class _ChatListBodyState extends State<ChatListBody> {
   List<DocumentSnapshot> allUser = [];
-  List allTime = [];
-  List productID = [];
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -28,40 +28,40 @@ class _ChatListBodyState extends State<ChatListBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: ListView.builder(
-              itemCount: allUser.length,
-              itemBuilder: (context, i) {
-                DateTime time = DateTime.fromMillisecondsSinceEpoch(allTime[i]);
-                var uploadTime = Jiffy(time).yMMMdjm;
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      NavigationHelper.pushRoute(
-                          context,
-                          ChatView(
-                            customerID: allUser[i]["uid"],
-                            name: allUser[i]["name"],
-                            fromChat: true,
-                            productID: productID[i],
-                          ));
-                    },
-                    child: ChatListTile(
-                      title: allUser[i]["name"],
-                      date: uploadTime,
-                      image: allUser[i]["image"],
+    return CustomLoader(
+      isLoading: isLoading,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: ListView.builder(
+                itemCount: allUser.length,
+                itemBuilder: (context, i) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        NavigationHelper.pushRoute(
+                            context,
+                            ChatView(
+                              customerID: allUser[i]["uid"],
+                              name: allUser[i]["name"],
+                              fromChat: true,
+                            ));
+                      },
+                      child: ChatListTile(
+                        title: allUser[i]["name"],
+                        image: allUser[i]["image"],
+                      ),
                     ),
-                  ),
-                );
-              })),
+                  );
+                })),
+      ),
     );
   }
 
   _getchat() async {
+    loadingTrue();
     await FirebaseFirestore.instance
         .collection("chatList")
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -71,12 +71,8 @@ class _ChatListBodyState extends State<ChatListBody> {
         .snapshots()
         .listen((QuerySnapshot snapshot) {
       allUser.clear();
-      allTime.clear();
-      productID.clear();
       setState(() {});
       snapshot.docs.forEach((element) async {
-        allTime.add(element["time"]);
-        productID.add(element["productID"]);
         var a = await FirebaseFirestore.instance
             .collection("Users")
             .doc(element["customerID"])
@@ -84,6 +80,17 @@ class _ChatListBodyState extends State<ChatListBody> {
         allUser.add(a);
         setState(() {});
       });
+      loadingFalse();
     });
+  }
+
+  loadingTrue() {
+    isLoading = true;
+    setState(() {});
+  }
+
+  loadingFalse() {
+    isLoading = false;
+    setState(() {});
   }
 }
