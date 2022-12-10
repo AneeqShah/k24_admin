@@ -9,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:k24_admin/app/custom_loader.dart';
 import 'package:k24_admin/app/image_upload.dart';
+import 'package:k24_admin/app/notification_handler.dart';
 import 'package:k24_admin/config/front_end_config.dart';
 import 'package:k24_admin/navigation_helper/navigation_helper.dart';
 import 'package:k24_admin/presentation/elements/custom_text.dart';
@@ -222,6 +223,14 @@ class _ChatViewBodyState extends State<ChatViewBody> {
         "time": DateTime.now().millisecondsSinceEpoch,
       });
     }).then((value) {
+      String message = _message.text;
+      print(widget.CustomerID);
+      NotificationHandler().oneToOneNotificationHelper(
+          docID: widget.CustomerID.toString(),
+          body: message,
+          title: 'Admin sent you a new message',
+          message: message,
+          location: 'chat');
       _message.clear();
     });
   }

@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:k24_admin/config/front_end_config.dart';
@@ -43,6 +45,24 @@ class _HomeBodyState extends State<HomeBody> {
   void initState() {
     // TODO: implement initState
     _getGraphData();
+
+    // WidgetsBinding.instance.addObserver(this);
+    print('searchpage = ${FrontEndConfigs.notification}');
+
+    if (FirebaseAuth.instance.currentUser != null) _initFcm();
+    super.initState();
+  }
+
+  Future<void> _initFcm() async {
+    var uid = FirebaseAuth.instance.currentUser!.uid;
+    FirebaseMessaging.instance.getToken().then((token) {
+      FirebaseFirestore.instance.collection('deviceTokens').doc(uid).set(
+        {
+          'deviceTokens': token,
+        },
+      );
+    });
+
   }
 
   @override

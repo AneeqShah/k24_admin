@@ -14,7 +14,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   FrontEndConfigs.notification = message.data['message'].toString();
   print('assas${FrontEndConfigs.notification}');
-  storage.write(key: 'abc', value: FrontEndConfigs.notification);
+  storage.write(key: 'order', value: FrontEndConfigs.notification);
 
   print('ssss=${message.data}');
   createNotification(
@@ -155,12 +155,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
   }
 
   void _showLockScreenDialog() async {
-    String? value = await storage.read(key: 'abc');
+    String? value = await storage.read(key: 'order');
     print('searchpage = ${value}');
     Future.delayed(
       Duration.zero,
     );
-    if (value == 'asd') {
+    if (value == 'order') {
       storage.write(key: 'abc', value: '');
       // _navigatorKey.currentState!
       //     .pushReplacement(MaterialPageRoute(builder: (BuildContext context) {
